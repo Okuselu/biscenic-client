@@ -1,0 +1,148 @@
+/* Color variables are now defined in themes.css for consistency */
+
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-primary);
+}
+
+/* Form Styles */
+.form-control {
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid #dee2e6;
+  transition: border-color 0.15s ease-in-out;
+}
+
+.form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.form-label {
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+/* Button Styles */
+.btn {
+  border-radius: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  transition: all 0.15s ease-in-out;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+}
+
+/* Card Styles */
+.card {
+  border-radius: 1rem;
+  border: none;
+  box-shadow: 0 0.125rem 0.25rem var(--shadow-color);
+  background-color: var(--surface-color);
+}
+
+.admin-dashboard .card {
+  transition: transform 0.2s ease-in-out;
+  border: 1px solid var(--border-color);
+  background-color: var(--surface-color);
+}
+
+.admin-dashboard .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+.admin-dashboard .card-body {
+  padding: 1.5rem;
+}
+
+.admin-dashboard .btn {
+  margin-top: 1rem;
+}
+
+/* Layout Utilities */
+.section-title {
+  color: var(--text-primary);
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.section-subtitle {
+  color: var(--text-secondary);
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+/* Alert Styles */
+.alert {
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+/* Navbar Styles */
+.navbar {
+  height: 70px;
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+}
+
+.nav-link {
+  font-weight: 500;
+  color: var(--text-primary);
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+  color: var(--accent-color);
+}
+
+/* Adjust main content for fixed navbar */
+main {
+  min-height: calc(100vh - 70px);
+}
+
+/* Homepage Styles */
+.hero-section {
+  background: var(--hero-gradient);
+  color: var(--secondary-color);
+  padding: 4rem 0;
+}
+
+.category-nav {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.category-nav .btn {
+  border-radius: 2rem;
+  padding: 0.5rem 1.5rem;
+  font-weight: 500;
+  border: 2px solid var(--accent-color);
+  color: var(--accent-color);
+  background-color: transparent;
+  transition: all 0.3s ease;
+}
+
+.category-nav .btn:hover,
+.category-nav .btn.active {
+  background-color: var(--accent-color);
+  color: var(--secondary-color);
+}
+
+.search-form {
+  max-width: 600px;
+  margin: 0 auto;
+}
