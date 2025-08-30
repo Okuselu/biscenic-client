@@ -47,7 +47,7 @@ function App() {
     <ThemeProvider>
       <AuthProvider>
         <CartProvider>
-          <Router>
+          <Router basename="/biscenic-client">
             <Layout>
               <Routes>
                 {/* Public Routes */}
