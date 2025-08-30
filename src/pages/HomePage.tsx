@@ -6,6 +6,7 @@ import ProductCard from "../components/Product/ProductCard";
 import { Product, Category } from "../types/product.types";
 import { useAuth } from "../context/authContext/authContext";
 import Hero from "../components/Hero/Hero";
+import { API_ENDPOINTS } from "../config/api"; // Add this import
 import "./HomePage.css";
 
 const HomePage: React.FC = () => {
@@ -21,9 +22,9 @@ const HomePage: React.FC = () => {
       try {
         setLoading(true);
         const [productsRes, categoriesRes] = await Promise.all([
-          axios.get("http://localhost:5050/api/products"),
+          axios.get(API_ENDPOINTS.products), // Replace hardcoded URL
           axios.get<{ data: Category[] }>(
-            "http://localhost:5050/api/categories"
+            API_ENDPOINTS.categories // Replace hardcoded URL
           ),
         ]);
 
@@ -46,9 +47,9 @@ const refreshData = async () => {
   try {
     setLoading(true);
     const [productsRes, categoriesRes] = await Promise.all([
-      axios.get("http://localhost:5050/api/products"),
+      axios.get(API_ENDPOINTS.products), // Replace hardcoded URL
       axios.get<{ data: Category[] }>(
-        "http://localhost:5050/api/categories"
+        API_ENDPOINTS.categories // Replace hardcoded URL
       ),
     ]);
 
@@ -82,7 +83,7 @@ useEffect(() => {
 
   const handleAddToCart = async (productId: string) => {
     try {
-      await axios.post("http://localhost:5050/api/cart/add", {
+      await axios.post(API_ENDPOINTS.cart.add, {
         productId,
         quantity: 1,
       });
@@ -94,7 +95,7 @@ useEffect(() => {
   const handleNewsletterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5050/api/newsletter/subscribe", {
+      await axios.post(API_ENDPOINTS.newsletter.subscribe, { // Replace hardcoded URL
         email,
       });
       setSubscribeStatus("success");

@@ -6,6 +6,7 @@ import ProductFilter from "../components/Product/ProductFilter";
 import ProductSearch from "../components/Product/ProductSearch";
 import Spinner from "../components/UI/Spinner";
 import { useSearchParams } from "react-router-dom";
+import { API_ENDPOINTS } from "../config/api"; // Add this import
 
 const ProductsPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -23,7 +24,7 @@ const ProductsPage: React.FC = () => {
     try {
       console.log("Attempting to connect to API...");
       const response = await axios.get<ProductsResponse>(
-        "http://localhost:5050/api/products",
+        API_ENDPOINTS.products, // Replace hardcoded URL
         {
           timeout: 5000,
           headers: {
@@ -62,7 +63,7 @@ const ProductsPage: React.FC = () => {
   const fetchCategories = async () => {
     try {
       const response = await axios.get<{ data: Category[] }>(
-        "http://localhost:5050/api/categories"
+        API_ENDPOINTS.categories // Replace hardcoded URL
       );
       setCategories(response.data.data || []);
     } catch (err) {
@@ -112,8 +113,7 @@ const ProductsPage: React.FC = () => {
 
   const handleAddToCart = async (productId: string) => {
     try {
-      await axios.post("http://localhost:5050/api/carts/add", {
-        // Updated endpoint
+      await axios.post(API_ENDPOINTS.cart.add, { // Replace hardcoded URL
         productId,
         quantity: 1,
       });
