@@ -48,7 +48,7 @@ function App() {
       <AuthProvider>
         <CartProvider>
           <Router 
-            basename={process.env.NODE_ENV === 'production' ? '/biscenic-client' : ''}
+            basename={process.env.NODE_ENV === 'production' ? '/biscenic-project' : ''}
             future={{
               v7_startTransition: true,
               v7_relativeSplatPath: true

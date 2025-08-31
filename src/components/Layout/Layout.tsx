@@ -76,7 +76,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               ></i>
             </button>
             <Link 
-              to={process.env.NODE_ENV === 'production' ? '/biscenic-client/' : '/'} 
+              to={process.env.NODE_ENV === 'production' ? '/biscenic-project/' : '/'} 
               className="brand"
             >
               biscenic
