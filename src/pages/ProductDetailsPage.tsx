@@ -5,6 +5,7 @@ import { useAuth } from "../context/authContext/authContext";
 import axios from "axios";
 import "./ProductDetailsPage.css";
 import ProductImages from '../components/Product/ProductImages';
+import { API_ENDPOINTS } from '../config/api';
 
 interface Review {
   _id: string;
@@ -49,14 +50,12 @@ const ProductDetailsPage: React.FC = () => {
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [newReview, setNewReview] = useState({ rating: 5, comment: "" });
   const [submittingReview, setSubmittingReview] = useState(false);
-  // Remove this line as it's no longer needed
-  // const [selectedImage, setSelectedImage] = useState<string>("");
 
   const handleAddToCart = async () => {
     if (!product) return;
     setAddingToCart(true);
     try {
-      await axios.post("http://localhost:5050/api/carts/add", {
+      await axios.post(API_ENDPOINTS.cart.add, {
         productId: product._id,
         quantity: quantity,
       });
@@ -93,7 +92,7 @@ const ProductDetailsPage: React.FC = () => {
     setSubmittingReview(true);
     try {
       const response = await axios.post(
-        `http://localhost:5050/api/reviews/products/${product._id}/reviews`,
+        API_ENDPOINTS.reviews.create(product._id),
         {
           rating: newReview.rating,
           comment: newReview.comment,
@@ -124,22 +123,16 @@ const ProductDetailsPage: React.FC = () => {
       try {
         setLoading(true);
         const productRes = await axios.get(
-          `http://localhost:5050/api/products/${id}`
+          API_ENDPOINTS.productById(id!)
         );
         const productData = productRes.data.data;
         setProduct(productData);
-
-        // Remove these lines as they're no longer needed
-        // const mainImage = productData.images.find(
-        //   (img: { isMain: boolean; url: string }) => img.isMain
-        // )?.url || productData.images[0]?.url;
-        // setSelectedImage(mainImage);
 
         // Fetch related products using productData instead of product state
         if (productData.category?._id) {
           try {
             const relatedRes = await axios.get(
-              `http://localhost:5050/api/products?category=${productData.category._id}&limit=4&exclude=${productData._id}`
+              API_ENDPOINTS.productsByCategory(productData.category._id, 4, productData._id)
             );
             setRelatedProducts(relatedRes.data.data || []);
           } catch (relatedErr) {
@@ -151,7 +144,7 @@ const ProductDetailsPage: React.FC = () => {
         // Fetch reviews
         try {
           const reviewsRes = await axios.get(
-            `http://localhost:5050/api/reviews/products/${id}/reviews`
+            API_ENDPOINTS.reviews.byProduct(id!)
           );
           setReviews(reviewsRes.data.data || []);
         } catch (reviewErr) {
@@ -193,7 +186,6 @@ const ProductDetailsPage: React.FC = () => {
   }
 
   return (
-
     <div className="product-details-page">
       <div className="container">
         <nav className="breadcrumb-nav">
