@@ -2,7 +2,7 @@
 const isGitHubPages = window.location.hostname === 'okuselu.github.io';
 
 const API_BASE_URL = isGitHubPages 
-  ? 'https://biscenic-server-6.onrender.com'
+  ? 'https://biscenic-server-4.onrender.com'
   : process.env.REACT_APP_API_URL || 'http://localhost:5050';
 
 // Remove debug lines in production
