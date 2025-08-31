@@ -5,6 +5,7 @@ import Container from "../components/UI/Container";
 import Spinner from "../components/UI/Spinner";
 import Alert from "../components/UI/Alert";
 import { Order } from "../types/order.types";
+import { API_ENDPOINTS } from "../config/api";
 
 const AdminOrders: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -20,13 +21,13 @@ const AdminOrders: React.FC = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await axios.get("http://localhost:5050/api/orders", {
+      const response = await axios.get(API_ENDPOINTS.orders.base, {
         headers: {
           Authorization: `Bearer ${state.token}`,
           "Content-Type": "application/json",
         },
       });
-      
+
       // Update to use the correct response structure
       setOrders(Array.isArray(response.data.data) ? response.data.data : []);
       setLoading(false);
@@ -39,7 +40,7 @@ const AdminOrders: React.FC = () => {
   const handleStatusUpdate = async (orderId: string, newStatus: string) => {
     try {
       await axios.patch(
-        `http://localhost:5050/api/orders/${orderId}/status`,
+        `${API_ENDPOINTS.orders}/${orderId}/status`,
         { status: newStatus },
         {
           headers: {
@@ -55,10 +56,14 @@ const AdminOrders: React.FC = () => {
   };
 
   const filteredOrders = orders.filter((order) => {
-    const matchesStatus = statusFilter === "all" || order.status === statusFilter;
-    const matchesSearch = searchTerm === "" || 
+    const matchesStatus =
+      statusFilter === "all" || order.status === statusFilter;
+    const matchesSearch =
+      searchTerm === "" ||
       order._id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (order.shippingInfo?.email?.toLowerCase() || '').includes(searchTerm.toLowerCase());
+      (order.shippingInfo?.email?.toLowerCase() || "").includes(
+        searchTerm.toLowerCase()
+      );
     return matchesStatus && matchesSearch;
   });
 
@@ -68,7 +73,7 @@ const AdminOrders: React.FC = () => {
   return (
     <Container>
       <h1 className="mb-4">Order Management</h1>
-      
+
       <div className="row mb-4">
         <div className="col-md-6">
           <input
@@ -112,9 +117,12 @@ const AdminOrders: React.FC = () => {
                 <td>
                   {order.shippingInfo ? (
                     <>
-                      {order.shippingInfo.firstName} {order.shippingInfo.lastName}
+                      {order.shippingInfo.firstName}{" "}
+                      {order.shippingInfo.lastName}
                       <br />
-                      <small className="text-muted">{order.shippingInfo.email}</small>
+                      <small className="text-muted">
+                        {order.shippingInfo.email}
+                      </small>
                     </>
                   ) : (
                     <span className="text-muted">No customer info</span>
@@ -125,7 +133,9 @@ const AdminOrders: React.FC = () => {
                   <select
                     className="form-select form-select-sm"
                     value={order.status}
-                    onChange={(e) => handleStatusUpdate(order._id, e.target.value)}
+                    onChange={(e) =>
+                      handleStatusUpdate(order._id, e.target.value)
+                    }
                   >
                     <option value="pending">Pending</option>
                     <option value="completed">Completed</option>
@@ -136,7 +146,9 @@ const AdminOrders: React.FC = () => {
                 <td>
                   <button
                     className="btn btn-sm btn-outline-primary"
-                    onClick={() => window.location.href = `/admin/orders/${order._id}`}
+                    onClick={() =>
+                      (window.location.href = `/admin/orders/${order._id}`)
+                    }
                   >
                     View Details
                   </button>

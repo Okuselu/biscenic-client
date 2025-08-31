@@ -7,6 +7,7 @@ import {
   ShippingAddress,
 } from "../types/user.types";
 import Card from "../components/UI/Card";
+import { API_ENDPOINTS } from "../config/api";
 
 const SignUpPage: React.FC = () => {
   const navigate = useNavigate();
@@ -56,7 +57,7 @@ const SignUpPage: React.FC = () => {
 
     try {
       const response = await axios.post<RegisterUserResponse>(
-        "http://localhost:5050/api/users/register",
+        API_ENDPOINTS.users.register,
         formData
       );
 
@@ -193,12 +194,12 @@ const SignUpPage: React.FC = () => {
                 </div>
               </div>
 
-              <button 
-                type="submit" 
+              <button
+                type="submit"
                 className="btn btn-primary w-100"
                 disabled={isLoading}
               >
-                {isLoading ? 'Creating Account...' : 'Create Account'}
+                {isLoading ? "Creating Account..." : "Create Account"}
               </button>
             </form>
           </Card>

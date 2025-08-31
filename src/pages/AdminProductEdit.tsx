@@ -18,14 +18,11 @@ const AdminProductEdit: React.FC = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:5050/api/products/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${state.token}`,
-            },
-          }
-        );
+        const response = await axios.get(`API_ENDPOINTS./api/products/${id}`, {
+          headers: {
+            Authorization: `Bearer ${state.token}`,
+          },
+        });
         setProduct(response.data.data);
       } catch (err) {
         setError("Failed to fetch product");

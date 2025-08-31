@@ -4,6 +4,7 @@ import { useNavigate, Link, useLocation } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../context/authContext/authContext";
 import Card from "../components/UI/Card";
+import { API_ENDPOINTS } from "../config/api";
 
 const LoginPage: React.FC = () => {
   const { dispatch } = useContext(AuthContext);
@@ -12,10 +13,10 @@ const LoginPage: React.FC = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  
+
   // Show session expired message if redirected from auth error
   const sessionMessage = location.state?.message;
-  
+
   useEffect(() => {
     if (sessionMessage) {
       setError(sessionMessage);
@@ -33,7 +34,7 @@ const LoginPage: React.FC = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5050/api/users/login",
+        API_ENDPOINTS.users.login,
         formData
       );
 

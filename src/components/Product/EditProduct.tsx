@@ -3,6 +3,7 @@ import { Product, Category } from "../../types/product.types";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/authContext/authContext";
 import axios from "axios";
+import { API_ENDPOINTS } from "../../config/api";
 
 interface EditProductProps {
   product: Product;
@@ -28,14 +29,11 @@ const EditProduct: React.FC<EditProductProps> = ({ product, onUpdate }) => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:5050/api/categories",
-          {
-            headers: {
-              Authorization: `Bearer ${state.token}`,
-            },
-          }
-        );
+        const response = await axios.get(API_ENDPOINTS.categories, {
+          headers: {
+            Authorization: `Bearer ${state.token}`,
+          },
+        });
         setCategories(response.data.data || []);
       } catch (err: any) {
         if (err.response?.status === 401) {
@@ -123,7 +121,7 @@ const EditProduct: React.FC<EditProductProps> = ({ product, onUpdate }) => {
       });
 
       const response = await axios.put(
-        `http://localhost:5050/api/products/${product._id}`,
+        `API_ENDPOINTS./api/products/${product._id}`,
         formDataToSend,
         {
           headers: {

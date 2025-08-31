@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { useAuth } from '../../context/authContext/authContext';
-import { Order } from '../../types/order.types';
-import Container from '../../components/UI/Container';
-import Spinner from '../../components/UI/Spinner';
-import Alert from '../../components/UI/Alert';
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useAuth } from "../../context/authContext/authContext";
+import { Order } from "../../types/order.types";
+import Container from "../../components/UI/Container";
+import Spinner from "../../components/UI/Spinner";
+import Alert from "../../components/UI/Alert";
 
 const OrderDetailsPage: React.FC = () => {
   const { orderId } = useParams();
@@ -13,7 +13,7 @@ const OrderDetailsPage: React.FC = () => {
   const { state } = useAuth();
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   useEffect(() => {
     fetchOrderDetails();
@@ -21,15 +21,15 @@ const OrderDetailsPage: React.FC = () => {
 
   const fetchOrderDetails = async () => {
     try {
-      const response = await axios.get(`http://localhost:5050/api/orders/${orderId}`, {
+      const response = await axios.get(`API_ENDPOINTS./api/orders/${orderId}`, {
         headers: {
           Authorization: `Bearer ${state.token}`,
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       });
       setOrder(response.data.data);
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to fetch order details');
+      setError(err.response?.data?.message || "Failed to fetch order details");
     } finally {
       setLoading(false);
     }
@@ -38,18 +38,18 @@ const OrderDetailsPage: React.FC = () => {
   const handleStatusUpdate = async (newStatus: string) => {
     try {
       await axios.patch(
-        `http://localhost:5050/api/orders/${orderId}/status`,
+        `API_ENDPOINTS./api/orders/${orderId}/status`,
         { status: newStatus },
         {
           headers: {
             Authorization: `Bearer ${state.token}`,
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         }
       );
       fetchOrderDetails();
     } catch (err: any) {
-      setError('Failed to update order status');
+      setError("Failed to update order status");
     }
   };
 
@@ -61,9 +61,9 @@ const OrderDetailsPage: React.FC = () => {
     <Container>
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h1>Order Details</h1>
-        <button 
+        <button
           className="btn btn-outline-primary"
-          onClick={() => navigate('/admin/orders')}
+          onClick={() => navigate("/admin/orders")}
         >
           Back to Orders
         </button>
@@ -90,8 +90,10 @@ const OrderDetailsPage: React.FC = () => {
               <h6>Customer Information</h6>
               {order.shippingInfo ? (
                 <p>
-                  {order.shippingInfo.firstName} {order.shippingInfo.lastName}<br />
-                  Email: {order.shippingInfo.email}<br />
+                  {order.shippingInfo.firstName} {order.shippingInfo.lastName}
+                  <br />
+                  Email: {order.shippingInfo.email}
+                  <br />
                   Phone: {order.shippingInfo.phone}
                 </p>
               ) : (
@@ -102,8 +104,10 @@ const OrderDetailsPage: React.FC = () => {
               <h6>Shipping Address</h6>
               {order.shippingInfo ? (
                 <p>
-                  {order.shippingInfo.address}<br />
-                  {order.shippingInfo.city}, {order.shippingInfo.state} {order.shippingInfo.zipCode}
+                  {order.shippingInfo.address}
+                  <br />
+                  {order.shippingInfo.city}, {order.shippingInfo.state}{" "}
+                  {order.shippingInfo.zipCode}
                 </p>
               ) : (
                 <p className="text-muted">No shipping information available</p>
@@ -130,16 +134,24 @@ const OrderDetailsPage: React.FC = () => {
               </thead>
               <tbody>
                 {(order.orderItems || []).map((item) => (
-                  <tr key={`${item.product?._id}-${item.quantity}-${item.price}`}>
-                    <td>{item.product?.name || 'Product Unavailable'}</td>
+                  <tr
+                    key={`${item.product?._id}-${item.quantity}-${item.price}`}
+                  >
+                    <td>{item.product?.name || "Product Unavailable"}</td>
                     <td>${(item.price || 0).toFixed(2)}</td>
                     <td>{item.quantity || 0}</td>
-                    <td>${((item.price || 0) * (item.quantity || 0)).toFixed(2)}</td>
+                    <td>
+                      ${((item.price || 0) * (item.quantity || 0)).toFixed(2)}
+                    </td>
                   </tr>
                 ))}
                 <tr>
-                  <td colSpan={3} className="text-end"><strong>Total Amount:</strong></td>
-                  <td><strong>${(order.totalAmount || 0).toFixed(2)}</strong></td>
+                  <td colSpan={3} className="text-end">
+                    <strong>Total Amount:</strong>
+                  </td>
+                  <td>
+                    <strong>${(order.totalAmount || 0).toFixed(2)}</strong>
+                  </td>
                 </tr>
               </tbody>
             </table>

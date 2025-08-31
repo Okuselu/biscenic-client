@@ -4,6 +4,7 @@ import { useAuth } from "../context/authContext/authContext";
 import Container from "../components/UI/Container";
 import Spinner from "../components/UI/Spinner";
 import Alert from "../components/UI/Alert";
+import { API_ENDPOINTS } from "../config/api";
 
 interface User {
   _id: string;
@@ -22,15 +23,12 @@ const AdminUsers: React.FC = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:5050/api/users/all",
-          {
-            headers: {
-              Authorization: `Bearer ${state.token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const response = await axios.get(API_ENDPOINTS.admin.users, { //not sure about .profile
+          headers: {
+            Authorization: `Bearer ${state.token}`,
+            "Content-Type": "application/json",
+          },
+        });
 
         if (response.data.data) {
           setUsers(response.data.data);
@@ -57,7 +55,7 @@ const AdminUsers: React.FC = () => {
   ) => {
     try {
       const response = await axios.patch(
-        `http://localhost:5050/api/users/${userId}/roles`,
+        `${API_ENDPOINTS.admin.users}/${userId}/roles`,
         { role, action },
         {
           headers: {

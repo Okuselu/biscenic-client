@@ -4,6 +4,7 @@ import { useCart } from "../context/cartContext/CartContext";
 import { useAuth } from "../context/authContext/authContext";
 import axios from "axios";
 import { handleAuthError } from '../utils/authUtils';
+import { API_ENDPOINTS } from "../config/api";
 
 interface PaystackConfig {
   key: string;
@@ -145,7 +146,7 @@ const CheckoutPage: React.FC = () => {
               };
               
               const addressResponse = await axios.post(
-                "http://localhost:5050/api/addresses",
+                API_ENDPOINTS.addresses,
                 addressData,
                 {
                   headers: {
@@ -203,7 +204,7 @@ const CheckoutPage: React.FC = () => {
               console.log('Order Data:', orderData); // Add debug log
               
               const orderResponse = await axios.post(
-                "http://localhost:5050/api/orders",
+                API_ENDPOINTS.orders.base,
                 orderData,
                 {
                   headers: {
@@ -217,7 +218,7 @@ const CheckoutPage: React.FC = () => {
               shipmentData.order = orderResponse.data.data._id;
               
               const shipmentResponse = await axios.post(
-                "http://localhost:5050/api/shipments",
+                API_ENDPOINTS.shipments,
                 shipmentData,
                 {
                   headers: {
@@ -229,7 +230,7 @@ const CheckoutPage: React.FC = () => {
               
               // Update order with shipment ID
               await axios.patch(
-                `http://localhost:5050/api/orders/${orderResponse.data.data._id}`,
+                API_ENDPOINTS.orders.updateById(orderResponse.data.data._id),
                 { shipment: shipmentResponse.data.data._id },
                 {
                   headers: {

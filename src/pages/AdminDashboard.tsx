@@ -3,28 +3,30 @@ import { Link } from "react-router-dom";
 import Container from "../components/UI/Container";
 import Card from "../components/UI/Card";
 import { useAuth } from "../context/authContext/authContext";
-import axios from 'axios';
+import axios from "axios";
 import { OrdersResponse } from "../types/order.types";
+import { API_ENDPOINTS } from "../config/api";
 
 const AdminDashboard: React.FC = () => {
   const { state } = useAuth();
-  const userName = state.user?.firstName || 
-                  state.user?.username || 
-                  state.user?.email?.split('@')[0] || 
-                  'Admin';
+  const userName =
+    state.user?.firstName ||
+    state.user?.username ||
+    state.user?.email?.split("@")[0] ||
+    "Admin";
 
   const [orderStats, setOrderStats] = useState({
     total: 0,
     pending: 0,
     completed: 0,
-    cancelled: 0
+    cancelled: 0,
   });
 
   useEffect(() => {
     const fetchOrderStats = async () => {
       try {
         const response = await axios.get<OrdersResponse>(
-          "http://localhost:5050/api/orders",
+          API_ENDPOINTS.orders.base,
           {
             headers: {
               Authorization: `Bearer ${state.token}`,
@@ -36,12 +38,12 @@ const AdminDashboard: React.FC = () => {
         const orders = response.data.data;
         setOrderStats({
           total: orders.length,
-          pending: orders.filter(o => o.status === 'pending').length,
-          completed: orders.filter(o => o.status === 'completed').length,
-          cancelled: orders.filter(o => o.status === 'cancelled').length
+          pending: orders.filter((o) => o.status === "pending").length,
+          completed: orders.filter((o) => o.status === "completed").length,
+          cancelled: orders.filter((o) => o.status === "cancelled").length,
         });
       } catch (error) {
-        console.error('Failed to fetch order stats:', error);
+        console.error("Failed to fetch order stats:", error);
       }
     };
 
@@ -83,7 +85,7 @@ const AdminDashboard: React.FC = () => {
             </Link>
           </Card>
         </div>
-        
+
         <div className="col-md-4">
           <Card>
             <h5 className="card-title">Category Management</h5>

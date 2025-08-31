@@ -6,6 +6,7 @@ import Spinner from "../components/UI/Spinner";
 import Alert from "../components/UI/Alert";
 import { useNavigate } from "react-router-dom";
 import DeleteConfirmationModal from "../components/UI/DeleteConfirmationModal";
+import { API_ENDPOINTS } from "../config/api";
 
 interface ProductFormData {
   name: string;
@@ -70,7 +71,7 @@ const AdminProductPage: React.FC = () => {
     const fetchProducts = async () => {
       setProductsLoading(true);
       try {
-        const response = await axios.get("http://localhost:5050/api/products", {
+        const response = await axios.get(API_ENDPOINTS.products, {
           headers: {
             Authorization: `Bearer ${state.token}`,
           },
@@ -107,7 +108,7 @@ const AdminProductPage: React.FC = () => {
 
     try {
       const response = await axios.delete(
-        `http://localhost:5050/api/products/${productToDelete._id}`,
+        API_ENDPOINTS.admin.deleteProduct(productToDelete._id),
         {
           headers: {
             Authorization: `Bearer ${state.token}`,
@@ -223,7 +224,7 @@ const AdminProductPage: React.FC = () => {
       });
 
       const response = await axios.post(
-        "http://localhost:5050/api/products",
+        API_ENDPOINTS.products,
         formDataToSend,
         {
           headers: {
@@ -267,9 +268,11 @@ const AdminProductPage: React.FC = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:5050/api/categories"
-        );
+        const response = await axios.get(API_ENDPOINTS.products, {
+          headers: {
+            Authorization: `Bearer ${state.token}`,
+          },
+        });
         setCategories(response.data.data);
       } catch (err: any) {
         console.error("Error fetching categories:", err);
