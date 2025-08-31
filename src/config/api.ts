@@ -22,5 +22,6 @@ export const API_ENDPOINTS = {
   users: {
     register: `${API_BASE_URL}/api/users/register`,
     login: `${API_BASE_URL}/api/users/login`,
+    orders: `${API_BASE_URL}/api/orders`,
   },
 };

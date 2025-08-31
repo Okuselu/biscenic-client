@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/authContext/authContext";
+// Import API configuration at the top
+import { API_ENDPOINTS } from '../config/api';
 // import Spinner from "../components/UI/Spinner";
 // import { Modal, Button } from "react-bootstrap";
 
@@ -58,8 +60,12 @@ const OrderHistoryPage: React.FC = () => {
       }
 
       try {
+      
+        
+        // Replace the hardcoded URL in fetchOrders function
         const response = await axios.get(
-          `http://localhost:5050/api/orders/user/${user._id}`,
+          //`http://localhost:5050/api/orders/user/${user._id}`,
+          `${API_ENDPOINTS.users.orders || API_ENDPOINTS.users.login.replace('/login', '')}/orders/user/${user._id}`,
           {
             headers: {
               Authorization: `Bearer ${state.token}`,
