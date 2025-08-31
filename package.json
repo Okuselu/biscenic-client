@@ -1,7 +1,7 @@
 {
   "name": "biscenic",
   "version": "0.1.0",
-  "homepage": "https://okuselu.github.io/biscenic-client",
+  "homepage": "https://okuselu.github.io/biscenic-project",
   "private": true,
   "dependencies": {
     "@paystack/inline-js": "^2.22.2",
@@ -32,9 +32,7 @@
     "start": "react-scripts start",
     "build": "CI=false react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
@@ -53,8 +51,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "gh-pages": "^6.3.0"
   }
 }
