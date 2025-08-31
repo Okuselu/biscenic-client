@@ -47,7 +47,7 @@ function App() {
     <ThemeProvider>
       <AuthProvider>
         <CartProvider>
-          <Router basename="/biscenic-client">
+          <Router basename={process.env.NODE_ENV === 'production' ? '/biscenic-client' : ''}>
             <Layout>
               <Routes>
                 {/* Public Routes */}
