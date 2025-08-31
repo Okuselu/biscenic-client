@@ -101,4 +101,4 @@ export const API_ENDPOINTS = {
 //     orders: `${API_BASE_URL}/api/orders`,
 //   },
 // };
-// Force deployment - Updated Jan 26 2025 to fix localhost URLs
+// Force deployment - Updated Feb 2 2025 18:30 to fix localhost URLs in production
