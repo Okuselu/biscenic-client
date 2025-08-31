@@ -21,11 +21,11 @@ jobs:
         
     - name: Install dependencies
       run: npm ci
-      working-directory: ./biscenic-client
+      # Remove working-directory since we're already in the biscenic-client repo
       
     - name: Build
       run: npm run build
-      working-directory: ./biscenic-client
+      # Remove working-directory since we're already in the biscenic-client repo
       env:
         REACT_APP_API_URL: "https://biscenic-server-4.onrender.com"
         
@@ -34,4 +34,5 @@ jobs:
       if: github.ref == 'refs/heads/main'
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./biscenic-client/build
+        publish_dir: ./build
+        # Changed from ./biscenic-client/build to ./build
