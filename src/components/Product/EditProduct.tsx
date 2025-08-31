@@ -121,7 +121,7 @@ const EditProduct: React.FC<EditProductProps> = ({ product, onUpdate }) => {
       });
 
       const response = await axios.put(
-        `API_ENDPOINTS./api/products/${product._id}`,
+        API_ENDPOINTS.productById(product._id), // Fix this line
         formDataToSend,
         {
           headers: {

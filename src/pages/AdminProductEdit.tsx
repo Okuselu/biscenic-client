@@ -6,6 +6,7 @@ import Spinner from "../components/UI/Spinner";
 import Alert from "../components/UI/Alert";
 import EditProduct from "../components/Product/EditProduct";
 import { Product } from "../types/product.types";
+import { API_ENDPOINTS } from "../config/api"; // Add this import
 
 const AdminProductEdit: React.FC = () => {
   const { id } = useParams();
@@ -18,7 +19,7 @@ const AdminProductEdit: React.FC = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`API_ENDPOINTS./api/products/${id}`, {
+        const response = await axios.get(API_ENDPOINTS.productById(id!), { // Fix this line
           headers: {
             Authorization: `Bearer ${state.token}`,
           },

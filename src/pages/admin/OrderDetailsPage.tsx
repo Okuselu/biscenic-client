@@ -6,6 +6,7 @@ import { Order } from "../../types/order.types";
 import Container from "../../components/UI/Container";
 import Spinner from "../../components/UI/Spinner";
 import Alert from "../../components/UI/Alert";
+import { API_ENDPOINTS } from "../../config/api"; // Add this import
 
 const OrderDetailsPage: React.FC = () => {
   const { orderId } = useParams();
@@ -21,7 +22,7 @@ const OrderDetailsPage: React.FC = () => {
 
   const fetchOrderDetails = async () => {
     try {
-      const response = await axios.get(`API_ENDPOINTS./api/orders/${orderId}`, {
+      const response = await axios.get(API_ENDPOINTS.orders.byId(orderId!), { // Fix this line
         headers: {
           Authorization: `Bearer ${state.token}`,
           "Content-Type": "application/json",
@@ -38,7 +39,7 @@ const OrderDetailsPage: React.FC = () => {
   const handleStatusUpdate = async (newStatus: string) => {
     try {
       await axios.patch(
-        `API_ENDPOINTS./api/orders/${orderId}/status`,
+        API_ENDPOINTS.orders.updateById(orderId!), // Alternative fix using existing endpoint
         { status: newStatus },
         {
           headers: {
