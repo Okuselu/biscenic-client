@@ -5,6 +5,8 @@ import { useAuth } from "../context/authContext/authContext";
 import axios from "axios";
 import { handleAuthError } from '../utils/authUtils';
 import { API_ENDPOINTS } from "../config/api";
+import './CheckoutPage.css';
+
 
 interface PaystackConfig {
   key: string;
@@ -43,7 +45,7 @@ const CheckoutPage: React.FC = () => {
   const navigate = useNavigate();
   const { state, dispatch } = useCart();
   const { user, state: authState } = useAuth();
-
+  const [showLoadingOverlay, setShowLoadingOverlay] = useState(false);
   const [shippingInfo, setShippingInfo] = useState({
     firstName: "",
     lastName: "",
@@ -115,8 +117,18 @@ const CheckoutPage: React.FC = () => {
       return;
     }
 
+    setIsProcessing(true);
+    setShowLoadingOverlay(true);
+
+    // Add body class to prevent scrolling 
+    document.body.classList.add('paystack-modal-open');
+
     try {
       function handlePaystackResponse(response: PaystackResponse) {
+        // Remove body class
+        document.body.classList.remove('paystack-modal-open');
+        setShowLoadingOverlay(false);
+
         if (response.status === "success") {
           const createOrder = async () => {
             try {
@@ -276,21 +288,47 @@ const CheckoutPage: React.FC = () => {
         phone: shippingInfo.phone,
         ref: `ORDER_${Date.now()}_${Math.floor(Math.random() * 1000000)}`,
         callback: handlePaystackResponse,
-        onClose: () => setIsProcessing(false)
+        onClose: () => {
+          document.body.classList.remove('paystack-modal-open');
+          setShowLoadingOverlay(false);
+           setIsProcessing(false)
+        }
       };
+        //Add delay to ensure CSS is applied
+        setTimeout(() => {
+          const paystack = window.PaystackPop.setup(config);
+          paystack.openIframe();
+        }, 100);
 
-      const paystack = window.PaystackPop.setup(config);
-      paystack.openIframe();
     } catch (error: any) {
+      document.body.classList.remove('paystack-modal-open');
+      setShowLoadingOverlay(false);
       console.error("Paystack Error:", error);
       setError("Payment initialization failed. Please try again.");
       setIsProcessing(false);
     }
   };
+  //Add loading overlay component
+  const LoadingOverlay = () => {
+    if (!showLoadingOverlay) return null;
+    
+    return (
+      <div className="payment-loading-overlay">
+        <div className="payment-loading-content">
+          <div className="payment-loading-spinner"></div>
+          <h4>Initializing Payment...</h4>
+          <p className="text-muted">Please wait while we process your secure payment.</p>
+        </div>
+      </div>
+    );
+  };
 
   // Update the button in the return statement
   return (
-    <div className="container py-5">
+    <>
+    <LoadingOverlay />
+    <div className="checkout-container container py-3">
+      <div className="container py-5">
       <div className="row">
         <div className="col-md-8">
           <div className="card border-0 shadow-sm">
@@ -508,6 +546,8 @@ const CheckoutPage: React.FC = () => {
         </div>
       </div>
     </div>
+    </div>
+    </>
   );
 };
 
