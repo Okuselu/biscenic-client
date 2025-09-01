@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Product } from "../../types/product.types";
 import { useCart } from "../../context/cartContext/CartContext";
 import { Link } from "react-router-dom";
@@ -14,9 +14,20 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart, hideBottom = false }) => {
   const { dispatch } = useCart();
   const [isTouched, setIsTouched] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     refreshIcons();
+    
+    // Check if device is mobile
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   const handleAddToCart = () => {
@@ -48,11 +59,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart, hideBot
   };
 
   const handleImageClick = (e: React.MouseEvent) => {
-    // Prevent default behavior on mobile
-    if (window.innerWidth <= 768) {
-      e.preventDefault();
-      handleImageTouch();
-    }
+    // On mobile, the entire card is clickable via Link wrapper
+    // No need to prevent default behavior
   };
 
   const displayImage =
@@ -77,11 +85,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart, hideBot
             }}
           />
 
-          <div className="product-overlay">
-            <button className="btn-view-details-overlay">
-              <span>View Product</span>
-            </button>
-          </div>
+          {/* Only show overlay on desktop/tablet, hide on mobile */}
+          {!isMobile && (
+            <div className="product-overlay">
+              <button className="btn-view-details-overlay">
+                <span>View Product</span>
+              </button>
+            </div>
+          )}
         </div>
 
         <div className="product-content">
@@ -117,3 +128,17 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart, hideBot
 };
 
 export default ProductCard;
+
+// scattered snippets from modifications
+// import React, { useState } from "react";
+//   React.useEffect(() => {
+//     // Prevent default behavior on mobile
+//     if (window.innerWidth <= 768) {
+//       e.preventDefault();
+//       handleImageTouch();
+//     }
+//           <div className="product-overlay">
+//             <button className="btn-view-details-overlay">
+//               <span>View Product</span>
+//             </button>
+//           </div>

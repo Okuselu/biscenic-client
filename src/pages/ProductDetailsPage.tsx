@@ -404,7 +404,7 @@ const ProductDetailsPage: React.FC = () => {
             <div className="products-grid">
               {relatedProducts.map((relatedProduct) => (
                 <Link
-                  to={`/products/${relatedProduct._id}`}
+                  to={`/product/${relatedProduct._id}`}
                   key={relatedProduct._id}
                   className="related-product-card"
                 >
