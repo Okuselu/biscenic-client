@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useCart } from "../context/cartContext/CartContext";
 import { useAuth } from "../context/authContext/authContext";
@@ -39,6 +39,7 @@ const ProductDetailsPage: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { dispatch } = useCart();
+  const addToCartRef = useRef<HTMLDivElement>(null);
 
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
@@ -185,6 +186,25 @@ const ProductDetailsPage: React.FC = () => {
     );
   }
 
+  const scrollToAddToCart = () => {
+    if (addToCartRef.current) {
+      addToCartRef.current.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'center' 
+      });
+    }
+  };
+
+  // Handle related product click to scroll to top
+  const handleRelatedProductClick = (productId: string) => {
+    if (productId === id) {
+      // If clicking the current product, scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return false; // Prevent navigation
+    }
+    return true; // Allow normal navigation
+  };
+
   return (
     <div className="product-details-page">
       <div className="container">
@@ -197,9 +217,13 @@ const ProductDetailsPage: React.FC = () => {
         </nav>
 
         <div className="product-content">
-          {/* Replace the existing product-gallery div with ProductImages component */}
           <div className="product-gallery">
-            {product && <ProductImages images={product.images} />}
+            {product && (
+              <ProductImages 
+                images={product.images} 
+                onMainImageClick={scrollToAddToCart}
+              />
+            )}
           </div>
 
           <div className="product-info">
@@ -223,7 +247,7 @@ const ProductDetailsPage: React.FC = () => {
               </div>
             </div>
 
-            <div className="price-box">
+            <div className="price-box" ref={addToCartRef}>
               <h2>${product.price.toFixed(2)}</h2>
               {product.stock > 0 && (
                 <div className="quantity-selector">
@@ -258,23 +282,20 @@ const ProductDetailsPage: React.FC = () => {
                 </div>
               )}
             </div>
+
             <div className="action-buttons">
               <button
                 className={`btn-add-to-cart ${addingToCart ? "loading" : ""}`}
                 onClick={handleAddToCart}
-                disabled={addingToCart || product.stock === 0}
+                disabled={product.stock <= 0 || addingToCart}
               >
                 <i data-feather="shopping-cart" className="feather-16"></i>
                 {addingToCart ? "Adding..." : "Add to Cart"}
               </button>
-              <Link to="/checkout" className="btn-checkout">
-                <i data-feather="credit-card" className="feather-16"></i>
-                Proceed to Checkout
-              </Link>
             </div>
 
             <div className="product-description">
-              <h3>Product Description</h3>
+              <h3>Description</h3>
               <p>{product.description}</p>
             </div>
           </div>
@@ -407,6 +428,11 @@ const ProductDetailsPage: React.FC = () => {
                   to={`/product/${relatedProduct._id}`}
                   key={relatedProduct._id}
                   className="related-product-card"
+                  onClick={(e) => {
+                    if (!handleRelatedProductClick(relatedProduct._id)) {
+                      e.preventDefault();
+                    }
+                  }}
                 >
                   <img
                     src={

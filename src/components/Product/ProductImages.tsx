@@ -4,16 +4,24 @@ import './ProductImages.css';
 
 interface ProductImagesProps {
   images: ProductImage[];
+  onMainImageClick?: () => void;
 }
 
-const ProductImages: React.FC<ProductImagesProps> = ({ images }) => {
+const ProductImages: React.FC<ProductImagesProps> = ({ images, onMainImageClick }) => {
   const [mainImage, setMainImage] = useState(
     images.find(img => img.isMain)?.url || images[0]?.url
   );
 
+  const handleMainImageClick = () => {
+    // Only trigger scroll on mobile devices
+    if (window.innerWidth <= 768 && onMainImageClick) {
+      onMainImageClick();
+    }
+  };
+
   return (
     <div className="product-images">
-      <div className="main-image">
+      <div className="main-image" onClick={handleMainImageClick}>
         <img 
           src={mainImage} 
           alt="Product" 
