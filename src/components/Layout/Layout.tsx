@@ -317,8 +317,13 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         </div>
       </nav>
 
-      {/* Mobile Menu Overlay */}
-      {isMenuOpen && <div className="mobile-menu-overlay" onClick={handleNavLinkClick} />}
+      {/* Mobile Menu Overlay - FIXED */}
+      {isMenuOpen && (
+        <div 
+          className={`mobile-menu-overlay ${isMenuOpen ? "active" : ""}`} 
+          onClick={handleNavLinkClick} 
+        />
+      )}
       
       <main className="main-content">{children}</main>
     </div>
