@@ -14,6 +14,9 @@ const LoginPage: React.FC = () => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  // Get the intended destination from location state
+  const from = location.state?.from || "/";
+  
   // Show session expired message if redirected from auth error
   const sessionMessage = location.state?.message;
 
@@ -43,15 +46,19 @@ const LoginPage: React.FC = () => {
           type: "LOGIN",
           payload: response.data,
         });
-        // Redirect based on user role
+        
+        // Redirect based on user role and intended destination
         if (response.data.user.roles?.includes("admin")) {
           navigate("/admin");
         } else {
-          navigate("/"); // Regular users go to home page
+          // Redirect to intended destination (e.g., checkout) or home
+          navigate(from, { replace: true });
         }
       }
-    } catch (err) {
-      // ... error handling
+    } catch (err: any) {
+      setError(err.response?.data?.message || "Login failed");
+    } finally {
+      setIsLoading(false);
     }
   };
 

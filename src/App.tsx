@@ -5,6 +5,7 @@ import {
   Route,
   Routes,
   Navigate,
+  useLocation,
 } from "react-router-dom";
 import { AuthProvider, useAuth } from "./context/authContext/authContext";
 import { CartProvider } from "./context/cartContext/CartContext";
@@ -39,7 +40,13 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const { state } = useAuth();
-  return state.isAuthenticated ? <>{children}</> : <Navigate to="/login" />;
+  const location = useLocation();
+  
+  return state.isAuthenticated ? (
+    <>{children}</>
+  ) : (
+    <Navigate to="/login" state={{ from: location.pathname }} replace />
+  );
 };
 
 function App() {
