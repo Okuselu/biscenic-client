@@ -83,7 +83,7 @@ const EditProduct: React.FC<EditProductProps> = ({ product, onUpdate }) => {
       navigate("/login");
       return;
     }
-  
+
     // Validate form data
     if (
       !formData.name.trim() ||
@@ -93,37 +93,35 @@ const EditProduct: React.FC<EditProductProps> = ({ product, onUpdate }) => {
       setError("Please fill in all required fields");
       return;
     }
-  
+
     if (formData.price <= 0) {
       setError("Price must be greater than 0");
       return;
     }
-  
+
     setLoading(true);
     setError("");
-  
+
     try {
       const formDataToSend = new FormData();
-  
+
       // Add basic product data
       Object.entries(formData).forEach(([key, value]) => {
         if (key !== "images") {
           formDataToSend.append(key, value.toString());
         }
       });
-  
+
       // Only send the remaining images after removal
-      formDataToSend.append("existingImageIds", JSON.stringify(
-        formData.images.map(img => img.publicId)
-      ));
-  
-      // Add new images with correct field name 'images' instead of 'newImages'
+      formDataToSend.append("existingImages", JSON.stringify(formData.images));
+
+      // Add new images if any
       newImages.forEach((file) => {
-        formDataToSend.append("images", file);
+        formDataToSend.append("newImages", file);
       });
-  
+
       const response = await axios.put(
-        API_ENDPOINTS.productById(product._id),
+        API_ENDPOINTS.productById(product._id), // Fix this line
         formDataToSend,
         {
           headers: {
@@ -132,7 +130,7 @@ const EditProduct: React.FC<EditProductProps> = ({ product, onUpdate }) => {
           },
         }
       );
-  
+
       onUpdate(response.data.data);
     } catch (err: any) {
       if (err.response?.status === 401) {
@@ -297,66 +295,24 @@ const EditProduct: React.FC<EditProductProps> = ({ product, onUpdate }) => {
             </div>
           )}
 
-          {/* Add New Images and Videos */}
+          {/* Add New Images */}
           <div className="mb-4">
             <label htmlFor="images" className="form-label fw-semibold">
-              <i className="bi bi-camera me-1"></i>
-              Add New Images/Videos
+              <i className="bi bi-cloud-upload me-1"></i>
+              Add New Images
             </label>
             <input
               type="file"
               id="images"
+              name="images"
               className="form-control"
-              multiple
-              accept="image/*,video/*"
               onChange={handleImageUpload}
+              multiple
+              accept="image/*"
             />
-            <small className="form-text text-muted">
-              Supported formats: JPEG, PNG, WebP, MP4, AVI, MOV, WMV, FLV, WebM (Max: 100MB per file)
-            </small>
-            
-            {/* Preview new files */}
-            {newImages.length > 0 && (
-              <div className="mt-3">
-                <label className="form-label fw-semibold">Preview New Files:</label>
-                <div className="row">
-                  {newImages.map((file, index) => (
-                    <div key={index} className="col-md-3 col-6 mb-3">
-                      <div className="position-relative">
-                        {file.type.startsWith('image/') ? (
-                          <img
-                            src={URL.createObjectURL(file)}
-                            alt={`Preview ${index + 1}`}
-                            className="img-thumbnail w-100"
-                            style={{ height: "150px", objectFit: "cover" }}
-                          />
-                        ) : (
-                          <video
-                            src={URL.createObjectURL(file)}
-                            className="img-thumbnail w-100"
-                            style={{ height: "150px", objectFit: "cover" }}
-                            controls
-                          />
-                        )}
-                        <button
-                          type="button"
-                          className="btn btn-danger btn-sm position-absolute top-0 end-0 m-1"
-                          onClick={() => {
-                            setNewImages(prev => prev.filter((_, i) => i !== index));
-                          }}
-                          title="Remove file"
-                        >
-                          <i className="bi bi-x"></i>
-                        </button>
-                      </div>
-                      <small className="text-muted d-block mt-1">
-                        {file.name} ({(file.size / 1024 / 1024).toFixed(2)} MB)
-                      </small>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+            <div className="form-text">
+              Select multiple images to add to the product gallery.
+            </div>
           </div>
 
           {/* Form Actions */}
