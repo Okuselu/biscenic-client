@@ -1,0 +1,225 @@
+/* === Checkout Page Styling (Shopify-like, Mobile First) === */
+
+.checkout-container {
+  padding: 1rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.checkout-form {
+  margin-bottom: 2rem;
+}
+
+/* Input groups */
+.checkout-form .form-floating {
+  margin-bottom: 1rem;
+}
+
+.form-floating input.form-control,
+.form-floating select.form-select {
+  height: 44px !important;
+  padding: 0.5rem 0.75rem !important;
+  font-size: 15px !important;
+  border-radius: 6px !important;
+  border: 1px solid #ddd !important;
+  background-color: #fff !important;
+  transition: border-color 0.2s ease;
+}
+
+.form-floating > label {
+  padding: 0.25rem 0.5rem !important;
+  font-size: 13px !important;
+  color: #6c757d !important;
+}
+
+.form-floating input:focus,
+.form-floating select:focus {
+  border-color: #000 !important;
+  box-shadow: none !important;
+}
+
+/* Card containers */
+.checkout-container .card {
+  border: 1px solid #e5e5e5 !important;
+  border-radius: 8px !important;
+}
+
+.checkout-container .card-body {
+  padding: 1.5rem !important;
+}
+
+/* Order summary */
+.order-summary-card {
+  margin-top: 2rem;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.order-item {
+  padding: 1rem 0;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.order-item:last-child {
+  border-bottom: none;
+}
+
+.order-item-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+/* Buttons */
+button.btn,
+.payment-button {
+  height: 48px !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  border-radius: 6px !important;
+  padding: 0.75rem 1rem !important;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+button.btn-primary,
+.payment-button {
+  background-color: #000 !important;
+  border-color: #000 !important;
+  color: #fff !important;
+}
+
+button.btn-primary:hover,
+.payment-button:hover {
+  background-color: #333 !important;
+  border-color: #333 !important;
+}
+
+/* --- Mobile (≤768px) --- */
+@media (max-width: 768px) {
+  .checkout-container {
+    padding: 0.5rem;
+  }
+
+  .checkout-container .card-body {
+    padding: 1rem !important;
+  }
+
+  .form-floating input.form-control,
+  .form-floating select.form-select {
+    font-size: 14px !important;
+    height: 42px !important;
+  }
+
+  .form-floating > label {
+    font-size: 12px !important;
+  }
+
+  button.btn,
+  .payment-button {
+    width: 100% !important;
+    margin-top: 0.5rem !important;
+  }
+
+  .order-summary-card {
+    margin-top: 1.5rem;
+    border-radius: 12px;
+  }
+}
+
+/* --- Small screens (≤576px) --- */
+@media (max-width: 576px) {
+  .checkout-container .col-md-6,
+  .checkout-container .col-md-4,
+  .checkout-container .col-md-2 {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+
+  .order-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .order-item-image {
+    width: 45px;
+    height: 45px;
+  }
+}
+
+/* === Paystack Modal Overrides (unchanged, just cleaned up) === */
+#paystack-container,
+.paystack-container {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 999999 !important;
+  background: rgba(0, 0, 0, 0.8) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 1rem !important;
+  box-sizing: border-box !important;
+}
+
+#paystack-container iframe,
+.paystack-container iframe {
+  width: 100% !important;
+  max-width: 500px !important;
+  height: auto !important;
+  max-height: 90vh !important;
+  border: none !important;
+  border-radius: 12px !important;
+  background: white !important;
+}
+
+@media (max-width: 768px) {
+  #paystack-container,
+  .paystack-container {
+    padding: 0.5rem !important;
+  }
+
+  #paystack-container iframe,
+  .paystack-container iframe {
+    max-width: 100% !important;
+    height: 85vh !important;
+    border-radius: 16px 16px 0 0 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  #paystack-container iframe,
+  .paystack-container iframe {
+    height: 100vh !important;
+    border-radius: 0 !important;
+  }
+}
+
+body.paystack-modal-open {
+  overflow: hidden !important;
+  position: fixed !important;
+  width: 100% !important;
+}
+
+/* Payment button shimmer effect */
+.payment-button.processing::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
