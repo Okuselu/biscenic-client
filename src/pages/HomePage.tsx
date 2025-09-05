@@ -186,7 +186,7 @@ useEffect(() => {
       </section>
 
       {/* Categories Section */}
-      <section className="categories-section">
+      {/* <section className="categories-section">
         <div className="container">
           <h2 className="section-title">Explore Collections</h2>
           <div className="categories-grid">
@@ -202,7 +202,7 @@ useEffect(() => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Newsletter Section */}
       <section className="newsletter-section">
