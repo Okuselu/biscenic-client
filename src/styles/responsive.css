@@ -57,7 +57,7 @@
   }
   
   /* Prevent horizontal scrolling on cards and components */
-  .card, .modal, .navbar {
+  .card, .modal {
     max-width: 100%;
     overflow-x: hidden;
   }
