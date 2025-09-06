@@ -34,6 +34,9 @@ import AdminCategoryPage from "./pages/AdminCategoryPage";
 import OrderDetailsPage from "./pages/admin/OrderDetailsPage";
 import OrderConfirmationPage from "./pages/OrderConfirmationPage";
 import ProfilePage from "./pages/ProfilePage";
+import AboutUsPage from "./pages/AboutUs";
+import ContactUsPage from "./pages/ContactUs";
+
 
 // Add ProtectedRoute component
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
@@ -65,6 +68,8 @@ function App() {
               <Routes>
                 {/* Public Routes */}
                 <Route path="/" element={<HomePage />} />
+                <Route path="/about" element={<AboutUsPage />} />
+                <Route path="/contact" element={<ContactUsPage />} />
                 <Route path="/signup" element={<SignUpPage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/products" element={<ProductsPage />} />

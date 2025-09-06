@@ -153,13 +153,7 @@ const ProductsPage: React.FC = () => {
       </div>
 
       <div className="row">
-        <div className="col-12 col-md-3">
-          <ProductFilter
-            categories={categories}
-            selectedCategory={selectedCategory}
-            onCategoryChange={setSelectedCategory}
-          />
-        </div>
+        
 
         <div className="col-12 col-md-9">
           <ProductSearch
@@ -186,6 +180,13 @@ const ProductsPage: React.FC = () => {
               ))}
             </div>
           )}
+        </div>
+        <div className="col-12 col-md-3">
+          <ProductFilter
+            categories={categories}
+            selectedCategory={selectedCategory}
+            onCategoryChange={setSelectedCategory}
+          />
         </div>
       </div>
     </div>
