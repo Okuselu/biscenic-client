@@ -416,8 +416,10 @@ ADMIN_PASSWORD=your-secure-password
 Update frontend to use backend API:
 ```typescript
 // lib/api.ts
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
 ```
+//const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5050'
+
 
 ### Authentication Integration
 Replace localStorage-based auth with JWT tokens:
