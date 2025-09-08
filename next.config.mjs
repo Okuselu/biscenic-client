@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export', // 👈 required for static export
+  basePath: '/biscenic-client', // 👈 must match repo name
   eslint: {
     ignoreDuringBuilds: true,
   },
