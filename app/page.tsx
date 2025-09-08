@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Suspense } from "react"
 import { useProducts } from "@/services/products/queries"
 import { getMainImage, formatPrice } from "@/lib/utils/product"
+import "../styles/globals.css"
 
 // Featured collections component using API data
 const FeaturedCollections = () => {
