@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/biscenic-client/static/css/main.db9f9140.css",
+    "main.js": "/biscenic-client/static/js/main.f2d58d2d.js",
+    "static/js/453.e9367f48.chunk.js": "/biscenic-client/static/js/453.e9367f48.chunk.js",
+    "index.html": "/biscenic-client/index.html",
+    "main.db9f9140.css.map": "/biscenic-client/static/css/main.db9f9140.css.map",
+    "main.f2d58d2d.js.map": "/biscenic-client/static/js/main.f2d58d2d.js.map",
+    "453.e9367f48.chunk.js.map": "/biscenic-client/static/js/453.e9367f48.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.db9f9140.css",
+    "static/js/main.f2d58d2d.js"
+  ]
+}
